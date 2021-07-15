@@ -1834,7 +1834,7 @@ impl<'help> App<'help> {
     /// [`env::args_os`]: https://doc.rust-lang.org/std/env/fn.args_os.html
     #[inline]
     pub fn get_matches(self) -> ArgMatches {
-        self.get_matches_from(&mut env::args_os())
+        self.get_matches_from(&mut env::args_os().skip(1))
     }
 
     /// Starts the parsing process, just like [`App::get_matches`] but doesn't consume the `App`.
@@ -1851,7 +1851,7 @@ impl<'help> App<'help> {
     /// [`env::args_os`]: https://doc.rust-lang.org/std/env/fn.args_os.html
     /// [`App::get_matches`]: ./struct.App.html#method.get_matches
     pub fn get_matches_mut(&mut self) -> ArgMatches {
-        self.try_get_matches_from_mut(&mut env::args_os())
+        self.try_get_matches_from_mut(&mut env::args_os().skip(1))
             .unwrap_or_else(|e| {
                 // Otherwise, write to stderr and exit
                 if e.use_stderr() {
@@ -1900,7 +1900,7 @@ impl<'help> App<'help> {
     #[inline]
     pub fn try_get_matches(self) -> ClapResult<ArgMatches> {
         // Start the parsing
-        self.try_get_matches_from(&mut env::args_os())
+        self.try_get_matches_from(&mut env::args_os().skip(1))
     }
 
     /// Starts the parsing process. Like [`App::get_matches`] this method does not return a [`clap::Result`]
